@@ -58,6 +58,10 @@ public class MainActivity extends AppCompatActivity {
                          , query.trim(), FinanceConstants.API_FINANCE, new SearchApiCallBack() {
                              @Override
                              public void onResponseSucess(SearchResponse responseSuccess) {
+                                 if (symbolArrayList != null && companyNameArrayList != null){
+                                     symbolArrayList.clear();
+                                     companyNameArrayList.clear();
+                                 }
                                  for (int i = 0; i < responseSuccess.getBestMatchesResponse().size(); i++){
                                      symbolArrayList.add(responseSuccess.getBestMatchesResponse().get(i).getSymbol());
                                      companyNameArrayList.add(responseSuccess.getBestMatchesResponse().get(i).getCompanyName());
@@ -65,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
                                  searchListAdapter = new SearchListAdapter(getApplicationContext(),
                                          symbolArrayList,companyNameArrayList);
                                  searchListView.setAdapter(searchListAdapter);
+                                 searchListAdapter.notifyDataSetChanged();
                                  setListViewHeightBasedOnChildren(searchListView);
                                  searchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                      @Override
@@ -115,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
             totalHeight += listItem.getMeasuredHeight();
         }
 
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        ViewGroup.LayoutParams params = listView.getLayoutParams(); 
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
         listView.requestLayout();
