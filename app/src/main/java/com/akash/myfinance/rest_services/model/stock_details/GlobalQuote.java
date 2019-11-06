@@ -16,6 +16,21 @@ public class GlobalQuote {
     @SerializedName("10. change percent")
     private String changePercentageNumber;
 
+    @SerializedName("02. open")
+    private String openPrice;
+
+    @SerializedName("03. high")
+    private String intradayHighPrice;
+
+    @SerializedName("04. low")
+    private String intradayLowPrice;
+
+    @SerializedName("06. volume")
+    private String stockVolume;
+
+    @SerializedName("08. previous close")
+    private String previousCLosePrice;
+
     public String getSymbol() {
         return symbol;
     }
@@ -47,4 +62,45 @@ public class GlobalQuote {
     public void setChangePercentageNumber(String changePercentageNumber) {
         this.changePercentageNumber = changePercentageNumber;
     }
+
+    public String getOpenPrice() {
+        return openPrice;
+    }
+
+    public void setOpenPrice(String openPrice) {
+        this.openPrice = openPrice;
+    }
+
+    public String getIntradayHighPrice() {
+        return intradayHighPrice;
+    }
+
+    public void setIntradayHighPrice(String intradayHighPrice) {
+        this.intradayHighPrice = intradayHighPrice;
+    }
+
+    public String getIntradayLowPrice() {
+        return intradayLowPrice;
+    }
+
+    public void setIntradayLowPrice(String intradayLowPrice) {
+        this.intradayLowPrice = intradayLowPrice;
+    }
+
+    public String getStockVolume() {
+        return stockVolume;
+    }
+
+    public void setStockVolume(String stockVolume) {
+        this.stockVolume = stockVolume;
+    }
+
+    public String getPreviousCLosePrice() {
+        return previousCLosePrice;
+    }
+
+    public void setPreviousCLosePrice(String previousCLosePrice) {
+        this.previousCLosePrice = previousCLosePrice;
+    }
+
 }

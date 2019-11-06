@@ -86,7 +86,7 @@ public class RetrofitClient {
         stockDetailsResponseCall.enqueue(new Callback<StockDetailsResponse>() {
             @Override
             public void onResponse(Call<StockDetailsResponse> call, retrofit2.Response<StockDetailsResponse> response) {
-                if (response != null && response.body() != null) {
+                if (response != null && response.body() != null ) {
                     stockDetailsAPICallBack.onResponseSucess(response.body());
                 }else {
                     stockDetailsAPICallBack.onResponseFailure("The requested search is not Available");

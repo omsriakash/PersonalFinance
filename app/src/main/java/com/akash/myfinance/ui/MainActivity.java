@@ -58,29 +58,25 @@ public class MainActivity extends AppCompatActivity {
                          , query.trim(), FinanceConstants.API_FINANCE, new SearchApiCallBack() {
                              @Override
                              public void onResponseSucess(SearchResponse responseSuccess) {
-                                 if (symbolArrayList != null && companyNameArrayList != null){
-                                     symbolArrayList.clear();
-                                     companyNameArrayList.clear();
-                                 }
-                                 for (int i = 0; i < responseSuccess.getBestMatchesResponse().size(); i++){
-                                     symbolArrayList.add(responseSuccess.getBestMatchesResponse().get(i).getSymbol());
-                                     companyNameArrayList.add(responseSuccess.getBestMatchesResponse().get(i).getCompanyName());
-                                 }
-                                 searchListAdapter = new SearchListAdapter(getApplicationContext(),
-                                         symbolArrayList,companyNameArrayList);
-                                 searchListView.setAdapter(searchListAdapter);
-                                 searchListAdapter.notifyDataSetChanged();
-                                 setListViewHeightBasedOnChildren(searchListView);
-                                 searchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                     @Override
-                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                         Intent intent = new Intent(MainActivity.this, StockDetailsActivity.class);
-                                         intent.putExtra("SymbolName",symbolArrayList.get(position));
-                                         intent.putExtra("CompanyName",companyNameArrayList.get(position));
-                                         Log.d("12345","item "+symbolArrayList.get(position));
-                                         startActivity(intent);
-                                     }
-                                 });
+                                    for (int i = 0; i < responseSuccess.getBestMatchesResponse().size(); i++){
+                                        symbolArrayList.add(responseSuccess.getBestMatchesResponse().get(i).getSymbol());
+                                        companyNameArrayList.add(responseSuccess.getBestMatchesResponse().get(i).getCompanyName());
+                                    }
+                                    searchListAdapter = new SearchListAdapter(getApplicationContext(),
+                                            symbolArrayList,companyNameArrayList);
+                                    searchListView.setAdapter(searchListAdapter);
+                                    searchListAdapter.notifyDataSetChanged();
+                                    setListViewHeightBasedOnChildren(searchListView);
+                                    searchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                            Intent intent = new Intent(MainActivity.this, StockDetailsActivity.class);
+                                            intent.putExtra("SymbolName",symbolArrayList.get(position));
+                                            intent.putExtra("CompanyName",companyNameArrayList.get(position));
+                                            Log.d("12345","item "+symbolArrayList.get(position));
+                                            startActivity(intent);
+                                        }
+                                    });
                              }
 
                              @Override

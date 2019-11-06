@@ -41,6 +41,7 @@
         android:layout_marginStart="16dp"
         android:orientation="vertical"
         android:padding="5dp"
+        android:id="@+id/price_linear_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
@@ -50,6 +51,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="5dp"
             android:textStyle="bold"
+            android:text="0.00"
             android:textSize="36sp" />
 
         <LinearLayout
@@ -63,6 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="2dp"
+                android:text="0.00"
                 android:textSize="18sp" />
 
             <TextView
@@ -70,7 +73,92 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="2dp"
+                android:text="0.00"
                 android:textSize="18sp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/datails_intraday_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/price_linear_layout"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="3dp"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/open_price"
+                android:text="Open: 0.00"
+                android:layout_weight="1"
+                android:textSize="@dimen/stock_day_text_size"
+                android:textColor="@color/blackColor"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/previouse_close_price"
+                android:text="Previous Close: 0.00"
+                android:layout_weight="1"
+                android:textSize="@dimen/stock_day_text_size"
+                android:textColor="@color/blackColor"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="3dp"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/high_intraday_price"
+                android:text="High: 0.00"
+                android:layout_weight="1"
+                android:textSize="@dimen/stock_day_text_size"
+                android:textColor="@color/blackColor"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/low_intraday_price"
+                android:text="Low: 0.00"
+                android:layout_weight="1"
+                android:textSize="@dimen/stock_day_text_size"
+                android:textColor="@color/blackColor"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="3dp"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/stock_volume"
+                android:text="Volume: 0.00"
+                android:layout_weight="1"
+                android:textSize="@dimen/stock_day_text_size"
+                android:textColor="@color/blackColor"/>
+
 
         </LinearLayout>
 
