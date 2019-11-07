@@ -44,56 +44,61 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate( R.menu.search, menu);
+        getMenuInflater().inflate(R.menu.search, menu);
 
-        final MenuItem myActionMenuItem = menu.findItem( R.id.search);
+        final MenuItem myActionMenuItem = menu.findItem(R.id.search);
         final SearchView searchView = (SearchView) myActionMenuItem.getActionView();
         searchView.setQueryHint("Find my Stock");
         searchView.setIconified(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Log.d("12345","SearchOnQueryTextSubmit: " + query);
-                 retrofitClient.getSearchResults(FinanceConstants.SEARCH_FUNCTION
-                         , query.trim(), FinanceConstants.API_FINANCE, new SearchApiCallBack() {
-                             @Override
-                             public void onResponseSucess(SearchResponse responseSuccess) {
-                                    for (int i = 0; i < responseSuccess.getBestMatchesResponse().size(); i++){
-                                        symbolArrayList.add(responseSuccess.getBestMatchesResponse().get(i).getSymbol());
-                                        companyNameArrayList.add(responseSuccess.getBestMatchesResponse().get(i).getCompanyName());
+                Log.d("12345", "SearchOnQueryTextSubmit: " + query);
+                retrofitClient.getSearchResults(FinanceConstants.SEARCH_FUNCTION
+                        , query.trim(), FinanceConstants.API_FINANCE, new SearchApiCallBack() {
+                            @Override
+                            public void onResponseSucess(SearchResponse responseSuccess) {
+                                if (symbolArrayList != null && companyNameArrayList != null) {
+                                    symbolArrayList.clear();
+                                    companyNameArrayList.clear();
+                                }
+                                for (int i = 0; i < responseSuccess.getBestMatchesResponse().size(); i++) {
+                                    symbolArrayList.add(responseSuccess.getBestMatchesResponse().get(i).getSymbol());
+                                    companyNameArrayList.add(responseSuccess.getBestMatchesResponse().get(i).getCompanyName());
+                                }
+                                searchListAdapter = new SearchListAdapter(getApplicationContext(),
+                                        symbolArrayList, companyNameArrayList);
+                                searchListView.setAdapter(searchListAdapter);
+                                searchListAdapter.notifyDataSetChanged();
+                                setListViewHeightBasedOnChildren(searchListView);
+                                searchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        Intent intent = new Intent(MainActivity.this, StockDetailsActivity.class);
+                                        intent.putExtra("SymbolName", symbolArrayList.get(position));
+                                        intent.putExtra("CompanyName", companyNameArrayList.get(position));
+                                        Log.d("12345", "item " + symbolArrayList.get(position));
+                                        startActivity(intent);
                                     }
-                                    searchListAdapter = new SearchListAdapter(getApplicationContext(),
-                                            symbolArrayList,companyNameArrayList);
-                                    searchListView.setAdapter(searchListAdapter);
-                                    searchListAdapter.notifyDataSetChanged();
-                                    setListViewHeightBasedOnChildren(searchListView);
-                                    searchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                        @Override
-                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                            Intent intent = new Intent(MainActivity.this, StockDetailsActivity.class);
-                                            intent.putExtra("SymbolName",symbolArrayList.get(position));
-                                            intent.putExtra("CompanyName",companyNameArrayList.get(position));
-                                            Log.d("12345","item "+symbolArrayList.get(position));
-                                            startActivity(intent);
-                                        }
-                                    });
-                             }
+                                });
+                            }
 
-                             @Override
-                             public void onResponseFailure(String failureResponse) {
+                            @Override
+                            public void onResponseFailure(String failureResponse) {
 
-                             }
-                         });
+                            }
+                        });
 
-                if( ! searchView.isIconified()) {
+                if (!searchView.isIconified()) {
                     searchView.setIconified(true);
                 }
                 myActionMenuItem.collapseActionView();
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String s) {
-                Log.d("12345","SearchOnQueryTexchange " + s);
+                Log.d("12345", "SearchOnQueryTexchange " + s);
 
                 return false;
             }
@@ -102,21 +107,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public static void setListViewHeightBasedOnChildren( ListView listView){
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null){
+        if (listAdapter == null) {
             return;
         }
 
         int totalHeight = 0;
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(),View.MeasureSpec.AT_MOST);
-        for (int i=0; i < listAdapter.getCount(); i++){
-            View listItem = listAdapter.getView(i,null, listView);
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST);
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
             listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
             totalHeight += listItem.getMeasuredHeight();
         }
 
-        ViewGroup.LayoutParams params = listView.getLayoutParams(); 
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
         listView.requestLayout();
